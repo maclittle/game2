@@ -44,7 +44,6 @@ public class BalloonQueue implements Queue {
     public Queue remove() {
         Queue q = this;
         while (!q.isEmpty()) {
-
             if ((Balloon.balloonHitPlayerHuh(first)) || (first.hitGroundHuh())) {
                 try {
                     return new BalloonQueue(rest.front(), rest.back(),

@@ -12,31 +12,14 @@ public class Balloon {
     static Random r = new Random();
     
     Posn position;
-    int prize;
     
     Balloon() {
         int x = r.nextInt(500);
         this.position = new Posn(x, 15);
-        this.prize = randomPrize();
     }
     
     Balloon(Posn p) {
         this.position = p;
-        this.prize = randomPrize();
-    }
-    
-    public int randomPrize(){
-        double r = Math.random();
-        if (r < 0.333){
-            // Balloon is empty
-            return 0;
-        } else if ((0.333 <= r) || (r < 0.666)){
-            // Balloon drops a coin
-            return 1;
-        } else {
-            // Balloon drops a mine
-            return 2;
-        }
     }
 
     public Boolean hitGroundHuh() {

@@ -31,14 +31,14 @@ public class Player {
     
     public Player movePlayerUp() {
         if (!this.atTopHuh()) {
-            position = new Posn(position.x, position.y + 5);
+            position = new Posn(position.x, position.y - 15);
             return new Player(position);
         } else return this;
     }
     
     public Player movePlayerDown(){
         if (!this.atBottomHuh()) {
-            position = new Posn(position.x, position.y - 5);
+            position = new Posn(position.x, position.y + 15);
             return new Player(position);
         } else return this;
     }
@@ -63,4 +63,16 @@ public class Player {
         return new RectangleImage((this.position), 15, 20, new Green());
     }
     
+//    public Boolean talkHuh() {
+//        int pTop = Player.position.y+8;
+//        int pBottom = Player.position.y-8;
+//        int pLeft = Player.position.x-10;
+//        int pRight = Player.position.x+10;
+//        int mTop = NPC.mayor.mPosn;
+//        
+//        return ((bRight>=pLeft) &&
+//               (bLeft<=pRight)) &&
+//               (bBot>= 585);
+//    }
+//    
 }
