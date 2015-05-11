@@ -23,7 +23,7 @@ public class Coin {
     }
 
     public Boolean hitGroundHuh() {
-        return this.position.y >= 600;
+        return this.position.y >= 580;
     }
 
     public Coin moveCoinDown() {
@@ -31,22 +31,25 @@ public class Coin {
             Posn position2 = new Posn(this.position.x, this.position.y + 57);
             return new Coin(position2);
         }
-        return this;
+        else {
+            Posn stay = new Posn(this.position.x, 590);
+            return new Coin(stay);
+                    }
     }
 
     public WorldImage drawCoin() {
         return new OvalImage(this.position,
-                13, 20, new Yellow());
+                14, 20, new Yellow());
     }
     
     
     public static Boolean coinHitPlayerHuh(Coin c){
-        int cLeft = c.position.x-7;
-        int cRight = c.position.x+7;
-        int cBot = c.position.y-10;
+        int cLeft = c.position.x;
+        int cRight = c.position.x;
+        int cBot = c.position.y;
         int pTop = Player.position.y-10;
-        int pLeft = Player.position.x-10;
-        int pRight = Player.position.x+10;
+        int pLeft = Player.position.x-8;
+        int pRight = Player.position.x+8;
         
         return ((cRight>=pLeft) &&
                (cLeft<=pRight)) &&

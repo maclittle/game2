@@ -63,16 +63,4 @@ public class Player {
         return new RectangleImage((this.position), 15, 20, new Green());
     }
     
-//    public Boolean talkHuh() {
-//        int pTop = Player.position.y+8;
-//        int pBottom = Player.position.y-8;
-//        int pLeft = Player.position.x-10;
-//        int pRight = Player.position.x+10;
-//        int mTop = NPC.mayor.mPosn;
-//        
-//        return ((bRight>=pLeft) &&
-//               (bLeft<=pRight)) &&
-//               (bBot>= 585);
-//    }
-//    
 }

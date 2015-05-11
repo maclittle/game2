@@ -22,11 +22,15 @@ public class NPC {
     }
 
     public WorldImage drawNPC() {
-        return new RectangleImage((this.position), 15, 20, this.color);
+        return new RectangleImage((this.position), 16, 20, this.color);
     }
 
+    static String yesDialog = "Thanks for your business!";
+    static String noDialog = "Okay, see you later then.";
+    static String brokeDialog = "You don't have enough coins for this!";
+    
     static Posn mPosn = new Posn(100, 550);
-    static String mDialog;
+    static String mDialog = "I am the mayor. Welcome to town!";
     static NPC mayor = new NPC("Mayor", mPosn, mDialog, Color.BLUE);
     
     static Posn lPosn = new Posn(175, 400);;
@@ -38,16 +42,14 @@ public class NPC {
     static NPC bombMerchant = new NPC("Kim", bPosn, bDialog, Color.CYAN);
     
     static Posn cPosn = new Posn(325, 200);;
-    static String cDialog = "Money's hard to come by, aint it. But give me 20 coins"
-            + " and I can lend you a hand.";
+    static String cDialog = "For 20 coins I can make money drop more often.";
     static NPC coinMerchant = new NPC("Lee", cPosn, cDialog, Color.WHITE);
     
-    static Posn mnPosn = new Posn(400, 200);;
-    static String mnDialog = "Those mines are pretty dangerous. For 15 coins I can "
-            + "reduce your chances of finding them.";
+    static Posn mnPosn = new Posn(440, 400);;
+    static String mnDialog = "For 15 coins I can reduce the frequency of mines.";
     static NPC mineMerchant = new NPC("Macks", mnPosn, mnDialog, Color.MAGENTA);
     
-    static Posn dPosn = new Posn(475, 350);;
+    static Posn dPosn = new Posn(60, 80);;
     static String dDialog = "woof woof bark";
     static NPC dog = new NPC("Jax", dPosn, dDialog, Color.ORANGE);
 }

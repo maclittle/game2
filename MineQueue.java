@@ -23,10 +23,10 @@ public class MineQueue implements mQueue {
         return false;
     }
 
-    public mQueue add(Mine m, Double d) {
+    public mQueue add(Mine m, Double md) {
         double r = Math.random();
-        if ((r + d > .85)) {
-                return new MineQueue(this.first, this.rest.add(m, d), mineCount + 1);
+        if ((r - md > .85)) {
+                return new MineQueue(this.first, this.rest.add(m, md), mineCount + 1);
         } else {
             return this;
         }

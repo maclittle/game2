@@ -23,10 +23,10 @@ public class CoinQueue implements cQueue {
         return false;
     }
 
-    public cQueue add(Coin c, Double d) {
+    public cQueue add(Coin c, Double cd) {
         double r = Math.random();
-        if ((r + d > .85)) {
-                return new CoinQueue(this.first, this.rest.add(c, d), coinCount + 1);
+        if ((r + cd > .85)) {
+                return new CoinQueue(this.first, this.rest.add(c, cd), coinCount + 1);
         } else {
             return this;
         }
@@ -43,7 +43,7 @@ public class CoinQueue implements cQueue {
     public cQueue remove() {
         cQueue q = this;
         while (!q.isEmpty()) {
-            if ((Coin.coinHitPlayerHuh(first)) || (first.hitGroundHuh())) {
+            if ((Coin.coinHitPlayerHuh(first))) {
                 try {
                     return new CoinQueue(rest.front(), rest.back(),
                             coinCount - 1);
