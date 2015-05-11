@@ -473,17 +473,115 @@ public class Game2 extends World {
     public static String[] randomInput(int size) {
         String[] keys = new String[size];
         for (int i = 0; i < size; i++) {
-            Random r = new Random();
-            int rand = r.nextInt();
-            if (rand % 2 == 0) {
-                keys[i] = "left";
-            } else {
-                keys[i] = "right";
+            int key = 6;
+            switch(key){
+                case 1: keys[i] = "left";
+                    break;
+                case 2: keys[i] = "right";
+                    break;
+                case 3: keys[i] = "up";
+                    break;
+                case 4: keys[i] = "down";
+                    break;
+                case 5: keys[i] = "b";
+                    break;
+                case 6: keys[i] = "v";
+                    break;
+                default: keys[i] = "n";
+                    break;
             }
         }
         return keys;
     }
+    
+    //TESTS
+    
+    // Creates a random game state with a random score, life number, player,
+    // coin count, bomb count, and mode
+    public static Game2 randomGame() {
+        int x = r.nextInt(500);
+        Player randomP = new Player(new Posn(x, 590));
+        int rScore = r.nextInt(101);
+        int rLives = r.nextInt(4);
+        int rBCount = r.nextInt(101);
+        int rCCount = r.nextInt(101);
+        String temp;
+        Random r = new Random();
+            int rand = r.nextInt();
+            if (rand % 2 == 0) {
+                temp = "dodge";
+            } else {
+                temp = "town";
+            }
+        return new Game2(randomP, bq, cq, mq, rScore, rLives, 500, 600, rBCount,
+        rCCount, temp, "no one");
+    }
 
+    // Tests whether the game is over when lives equal 0
+    public static Boolean endTest(Game2 g) {
+        if (g.lives <= 0) {
+            return (g.endHuh());
+        } else {
+            return true;
+        }
+    }
+    
+    // Tests whether the player location is ever out of the frame
+    public static Boolean playerBoundsTest(Game2 g){
+        return !((g.p.position.x<0) || (g.p.position.x>500) ||
+                (g.p.position.y<0) || (g.p.position.y>600));
+    }
+
+    // Given that something has hit the player, tests whether the player has
+    // lost a life
+    public static Boolean collideTest(Game2 g){
+        if((g.bq.anyHitPlayer()) || (g.mq.anyMinesHitPlayer())){
+            if(g.lives == 3){
+                return lives==2;
+            } else if (g.lives==2){
+                return lives==1;
+            } else if(g.lives==1){
+                return lives==0;
+            } else return false;
+        } else return true;
+    }
+    
+    // Tests whether picking up a coin adds to wealth
+    public static Boolean coinTest(Game2 g){
+        if(cq.anyCoinsHitPlayer()){
+            return g.coinCount>0;
+        } else return true;
+    }
+    
+    // Tests whether using a bomb clears the balloon queue
+    public static Boolean bombTest(Game2 g){
+        if ((g.mode == "dodge") && (g.bombCount > 0)){
+            g.onKeyEvent("b");
+            return (g.bq == mtbq);
+        } else return true;
+    }
+    
+    // Tests whether attempting to buy a life with insufficient coins
+    // transitions to the broke talking state
+    public static Boolean brokeTest(Game2 g) {
+        if ((g.mode == "town") && (g.talking == "lives")) {
+           Posn p = new Posn(200, 550);
+            g.onMouseClicked(p);
+            if (g.coinCount<10){
+                return (g.talking == "broke");
+            } else return true;
+        } else return true;
+    }
+    
+    // Tests whether hitting "v" changes the game mode appropriately
+    public static Boolean modeTest(Game2 g){
+        if (g.mode == "town") {
+            return g.onKeyEvent("v").mode == "dodge";
+        } else if (g.mode == "dodge"){
+            return g.onKeyEvent("v").mode == "town";
+        } else return true;
+    }
+    
     public static void main(String[] args) {
         int width = 500;
         int height = 600;
@@ -501,6 +599,73 @@ public class Game2 extends World {
 
         Game2 game = new Game2(p, bq, cq, mq, 0, lives, width, height,
                 1, 0, "dodge", "no one");
+        
+        // Creates a random game state by having the game play itself on every
+        // other tick
+            String[] keys = randomInput(800);
+            for (int s = 0; s < keys.length * 2; s++) {
+                if (s % 2 == 1) {
+                    game = game.onKeyEvent(keys[s / 2]);
+                } else {
+                    game = game.onTick();
+                }
+            }
+
+        //Runs endTest on 100 different games
+        for (int x = 0; x < 100; x++) {
+            Game2 rGame = randomGame();
+            if (!endTest(rGame)) {
+                System.out.println("endTest has failed");
+            }
+        }
+        
+        //Runs playerBoundsTest on 100 different games
+        for (int x = 0; x < 100; x++) {
+            Game2 rGame = randomGame();
+            if (!playerBoundsTest(rGame)) {
+                System.out.println("playerBoundsTest has failed");
+            }
+        }
+        
+        //Runs collideTest on 100 different games
+        for (int x = 0; x < 100; x++) {
+            Game2 rGame = randomGame();
+            if (!collideTest(rGame)) {
+                System.out.println("collideTest has failed");
+            }
+        }
+        
+        // Runs coinTest on 100 different games
+        for (int x = 0; x < 100; x++) {
+            Game2 rGame = randomGame();
+            if (!coinTest(rGame)) {
+                System.out.println("coinTest has failed");
+            }
+        }
+        
+        // Runs bombTest on 100 different games
+        for (int x = 0; x < 100; x++) {
+            Game2 rGame = randomGame();
+            if (!bombTest(rGame)) {
+                System.out.println("bombTest has failed");
+            }
+        }
+        
+        // Runs brokeTest on 100 different games
+        for (int x = 0; x < 100; x++) {
+            Game2 rGame = randomGame();
+            if (!brokeTest(rGame)) {
+                System.out.println("brokeTest has failed");
+            }
+        }
+        
+        // Runs modeTest on 100 different games
+        for (int x = 0; x < 100; x++) {
+            Game2 rGame = randomGame();
+            if (!modeTest(rGame)) {
+                System.out.println("modeTest has failed");
+            }
+        }
 
         game.bigBang(width, height, 0.3);
 
